@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-appication
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: ssh://git@github.com:subhadeep-123/argo-test.git
+    targetRevision: HEAD
+    path: app
+  destination:
+    # Internal service name for kubernetes api server
+    server: https://kubernetes.default.svc
+    namespace: myapp
+  syncPolicy:
+    syncOptions:
+      # create destination server namespace
+      - CreateNamespace=true
+    automated:
+      # Undo or overwrite manual changes to the cluster (self-healing)
+      selfHeal: true
+      # By default, automatic sync will not delete resources
+      prune: true
