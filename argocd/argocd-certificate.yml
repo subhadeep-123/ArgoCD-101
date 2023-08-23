@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argo-cd-cert
+  namespace: argocd
+spec:
+  secretName: argocd-secret
+  issuerRef:
+    name: argo-cd-issuer
+    kind: Issuer
+  commonName: ui.argo.klizos.com
+  dnsNames:
+  - ui.argo.klizos.com
