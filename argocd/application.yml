@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: ssh://git@github.com:subhadeep-123/argo-test.git
+    repoURL: git@github.com:subhadeep-123/argo-test.git
     targetRevision: HEAD
     path: app
   destination:
