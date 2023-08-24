@@ -37,14 +37,8 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
-Visualize service
+## Visualize service
 
 ```
 kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
-
-Get Admin Password
-
-```
-kubectl get secrets argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d
 ```
