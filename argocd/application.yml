@@ -15,10 +15,15 @@ spec:
     namespace: myapp
   syncPolicy:
     syncOptions:
-      # create destination server namespace
-      - CreateNamespace=true
+      - Validate=false # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+      - CreateNamespace=true # create destination server namespace
     automated:
-      # Undo or overwrite manual changes to the cluster (self-healing)
-      selfHeal: true
-      # By default, automatic sync will not delete resources
-      prune: true
+      selfHeal: true # Undo or overwrite manual changes to the cluster (self-healing)
+      prune: true # By default, automatic sync will not delete resources
+      allowEmpty: false # Allows deleting all application resources during automatic syncing
+    retry:
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
