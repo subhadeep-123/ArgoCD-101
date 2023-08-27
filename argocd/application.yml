@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: myapp-argo-appication
   namespace: argocd
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    # In other word, delete the kubernetes app when we delete the argocd resourse (application.yml).
+    - resources-finalizer.argocd.argoproj.io 
 spec:
   project: default
   source:
@@ -14,16 +18,28 @@ spec:
     server: https://kubernetes.default.svc
     namespace: myapp
   syncPolicy:
-    syncOptions:
-      - Validate=false # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
-      - CreateNamespace=true # create destination server namespace
     automated:
-      selfHeal: true # Undo or overwrite manual changes to the cluster (self-healing)
-      prune: true # By default, automatic sync will not delete resources
-      allowEmpty: false # Allows deleting all application resources during automatic syncing
+      # Undo or overwrite manual changes to the cluster (self-healing)
+      selfHeal: true 
+      # By default, automatic sync will not delete resources
+      prune: true 
+      # Allows deleting all application resources during automatic syncing
+      allowEmpty: false 
+    syncOptions:
+      # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+      - Validate=false 
+      # create destination server namespace
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      # It allows the ability for resources pruning to happen as a final, implicit wave of sync operationn
+      - PruneLast=true
     retry:
-      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      limit: 5 
       backoff:
-        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
-        factor: 2 # a factor to multiply the base duration after each failed retry
-        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+        # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        duration: 5s 
+        # a factor to multiply the base duration after each failed retry
+        factor: 2 
+        # the maximum amount of time allowed for the backoff strategy
+        maxDuration: 3m 
