@@ -1,13 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argo-cd-cert
+  name: argocd-cert
   namespace: argocd
 spec:
-  secretName: argocd-secret
+  secretName: argocd-tls-secret
   issuerRef:
-    name: argo-cd-issuer
-    kind: Issuer
-  commonName: ui.argo.klizos.com
+    name: letsencrypt-staging-issuer
+    kind: ClusterIssuer
   dnsNames:
-  - ui.argo.klizos.com
+    - ui.argo.test.com
