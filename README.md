@@ -1,10 +1,11 @@
 # ArgoCD Configuration
 
-### To Run ArgoCD
+### Setup ArgoCD
 
 ```
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-notifications/release-1.0/manifests/install.yaml
 ```
 
 ### ArogCD Admin Password
@@ -16,7 +17,9 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ### Generate SSH Keys
 
 ```
-ssh-keygen -f argo
+ssh-keygen -t ed25519 -C "subhadeep762@gmail.com" -f .ssh/argocd_ed25519
+or
+ssh-keygen -t rsa -b 4096 -C "subhadeep762@gmail.com" -f .ssh/argocd_rsa
 ```
 
 ### Encode SSH to Base64
