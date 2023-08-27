@@ -4,12 +4,11 @@ metadata:
   name: myapp-argo-appication
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.on-deleted.slack: cpx-deployer
-    notifications.argoproj.io/subscribe.on-deployed.slack: cpx-deployer
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: cpx-deployer
     notifications.argoproj.io/subscribe.on-sync-failed.slack: cpx-deployer
     notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: cpx-deployer
     notifications.argoproj.io/subscribe.on-health-degraded.slack: cpx-deployer
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: cpx-deployer
+    notifications.argoproj.io/subscribe.on-deployed.slack: cpx-deployer
   finalizers:
     # The default behaviour is foreground cascading deletion
     # In other word, delete the kubernetes app when we delete the argocd resourse (application.yml).
